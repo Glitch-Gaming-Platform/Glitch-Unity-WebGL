@@ -1,5 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using System.IO;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using UnityEngine;
 
 public class CameraShow : MonoBehaviour
@@ -10,6 +12,14 @@ public class CameraShow : MonoBehaviour
     [SerializeField] private RawImage receiveImage;
 
     WebCamTexture _webcamTexture;
+    Stream localTrack = new MemoryStream();
+
+#if UNITY_WEBGL
+    [DllImport("__Internal")]
+    private static extern void initConn();
+    [DllImport("__Internal")]
+    private static extern Stream getLocalTrack();
+#endif
 
     private void Awake()
     {
@@ -18,15 +28,18 @@ public class CameraShow : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
+        Debug.Log(getLocalTrack());
+        initConn();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+        //localTrack = getLocalTrack();
+        //Debug.Log(localTrack);
     }
 
     private void Call()
@@ -41,8 +54,6 @@ public class CameraShow : MonoBehaviour
 
         callButton.interactable = false;
         hangUpButton.interactable = true;
-
-        //connect();
     }
 
     private void HangUp()
@@ -57,23 +68,4 @@ public class CameraShow : MonoBehaviour
         callButton.interactable = true;
         hangUpButton.interactable = false;
     }
-
-
-#if UNITY_WEBGL
-    [DllImport("__Internal")]
-    private static extern void onLocalTracks();
-    [DllImport("__Internal")]
-    private static extern void onRemoteTrack();
-    [DllImport("__Internal")]
-    private static extern void onConferenceJoined();
-    [DllImport("__Internal")]
-    private static extern void onUserLeft(int id);
-    [DllImport("__Internal")]
-    private static extern void onConnectionSuccess();
-    [DllImport("__Internal")]
-    private static extern void unload();
-    [DllImport("__Internal")]
-    private static extern void connect();
-#endif
-
 }

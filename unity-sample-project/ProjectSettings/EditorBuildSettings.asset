@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Samples/MultiVideoReceive/MultiVideoReceive.unity
-    guid: 2849cfdf020a0464bac96e5c43bd6726
+    guid: 8f24b9928f158144894fee65988aa2da
   m_configObjects: {}
